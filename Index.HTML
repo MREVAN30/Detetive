@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>Detetive PG</title>
+</head>
+<body>
+  
+  <h1>Detetive PG</h1>
+  <input type="text" id="phoneNumber" placeholder="Digite o número com DDD" />
+  <button onclick="consultarNumero()">Consultar</button>
+
+  <p id="resultados"></p>
+
+  <script>
+ const dddData = {
+  "+1": { region: "Estados Unidos/Canadá", continent: "América do Norte" },
+  "+7": { region: "Rússia/Cazaquistão", continent: "Eurásia" },
+  "+20": { region: "Egito", continent: "África" },
+  "+27": { region: "África do Sul", continent: "África" },
+  "+30": { region: "Grécia", continent: "Europa" },
+  "+31": { region: "Países Baixos", continent: "Europa" },
+  "+32": { region: "Bélgica", continent: "Europa" },
+  "+33": { region: "França", continent: "Europa" },
+  "+34": { region: "Espanha", continent: "Europa" },
+  "+36": { region: "Hungria", continent: "Europa" },
+  "+39": { region: "Itália", continent: "Europa" },
+  "+40": { region: "Romênia", continent: "Europa" },
+  "+41": { region: "Suíça", continent: "Europa" },
+  "+43": { region: "Áustria", continent: "Europa" },
+  "+44": { region: "Reino Unido", continent: "Europa" },
+  "+45": { region: "Dinamarca", continent: "Europa" },
+  "+46": { region: "Suécia", continent: "Europa" },
+  "+47": { region: "Noruega", continent: "Europa" },
+  "+48": { region: "Polônia", continent: "Europa" },
+  "+49": { region: "Alemanha", continent: "Europa" },
+  "+51": { region: "Peru", continent: "América do Sul" },
+  "+52": { region: "México", continent: "América do Norte" },
+  "+53": { region: "Cuba", continent: "América Central" },
+  "+54": { region: "Argentina", continent: "América do Sul" },
+  "+55": { region: "Brasil", continent: "América do Sul" },
+  "+56": { region: "Chile", continent: "América do Sul" },
+  "+57": { region: "Colômbia", continent: "América do Sul" },
+  "+58": { region: "Venezuela", continent: "América do Sul" },
+  "+60": { region: "Malásia", continent: "Ásia" },
+  "+61": { region: "Austrália", continent: "Oceania" },
+  "+62": { region: "Indonésia", continent: "Ásia" },
+  "+63": { region: "Filipinas", continent: "Ásia" },
+  "+64": { region: "Nova Zelândia", continent: "Oceania" },
+  "+65": { region: "Singapura", continent: "Ásia" },
+  "+66": { region: "Tailândia", continent: "Ásia" },
+  "+81": { region: "Japão", continent: "Ásia" },
+  "+82": { region: "Coreia do Sul", continent: "Ásia" },
+  "+84": { region: "Vietnã", continent: "Ásia" },
+  "+86": { region: "China", continent: "Ásia" },
+  "+90": { region: "Turquia", continent: "Europa/Ásia" },
+  "+91": { region: "Índia", continent: "Ásia" },
+  "+92": { region: "Paquistão", continent: "Ásia" },
+  "+93": { region: "Afeganistão", continent: "Ásia" },
+  "+94": { region: "Sri Lanka", continent: "Ásia" },
+  "+95": { region: "Mianmar", continent: "Ásia" },
+  "+98": { region: "Irã", continent: "Ásia" },
+  "+211": { region: "Sudão do Sul", continent: "África" },
+  "+212": { region: "Marrocos", continent: "África" },
+  "+213": { region: "Argélia", continent: "África" },
+  "+216": { region: "Tunísia", continent: "África" },
+  "+218": { region: "Líbia", continent: "África" },
+  "+220": { region: "Gâmbia", continent: "África" },
+  "+221": { region: "Senegal", continent: "África" },
+  "+222": { region: "Mauritânia", continent: "África" },
+  "+223": { region: "Mali", continent: "África" },
+  "+224": { region: "Guiné", continent: "África" },
+  "+225": { region: "Costa do Marfim", continent: "África" },
+  "+226": { region: "Burkina Faso", continent: "África" },
+  "+227": { region: "Níger", continent: "África" },
+  "+228": { region: "Togo", continent: "África" },
+  "+229": { region: "Benin", continent: "África" },
+  "+230": { region: "Maurício", continent: "África" },
+  "+231": { region: "Libéria", continent: "África" },
+  "+232": { region: "Serra Leoa", continent: "África" },
+  "+233": { region: "Gana", continent: "África" },
+  "+234": { region: "Nigéria", continent: "África" },
+  "+235": { region: "Chade", continent: "África" },
+  "+236": { region: "República Centro-Africana", continent: "África" },
+  "+237": { region: "Camarões", continent: "África" },
+  "+238": { region: "Cabo Verde", continent: "África" },
+  "+239": { region: "São Tomé e Príncipe", continent: "África" },
+  "+240": { region: "Guiné Equatorial", continent: "África" },
+  "+241": { region: "Gabão", continent: "África" },
+  "+242": { region: "República do Congo", continent: "África" },
+  "+243": { region: "República Democrática do Congo", continent: "África" },
+  "+244": { region: "Angola", continent: "África" },
+  "+245": { region: "Guiné-Bissau", continent: "África" },
+  "+246": { region: "Diego Garcia", continent: "Oceano Índico" },
+  "+248": { region: "Seicheles", continent: "África" },
+  "+249": { region: "Sudão", continent: "África" },
+  "+250": { region: "Ruanda", continent: "África" },
+  "+251": { region: "Etiópia", continent: "África" },
+  "+252": { region: "Somália", continent: "África" },
+  "+253": { region: "Djibouti", continent: "África" },
+  "+254": { region: "Quênia", continent: "África" },
+  "+255": { region: "Tanzânia", continent: "África" },
+  "+256": { region: "Uganda", continent: "África" },
+  "+257": { region: "Burundi", continent: "África" },
+  "+258": { region: "Moçambique", continent: "África" },
+  "+260": { region: "Zâmbia", continent: "África" },
+  "+261": { region: "Madagáscar", continent: "África" },
+  "+262": { region: "Reunião", continent: "África" },
+  "+263": { region: "Zimbábue", continent: "África" },
+  "+264": { region: "Namíbia", continent: "África" },
+  "+265": { region: "Malawi", continent: "África" },
+  "+266": { region: "Lesoto", continent: "África" },
+  "+267": { region: "Botsuana", continent: "África" },
+  "+268": { region: "Eswatini", continent: "África" },
+  "+269": { region: "Comores", continent: "África" },
+  "+290": { region: "Santa Helena", continent: "África" },
+  "+291": { region: "Eritreia", continent: "África" },
+  "+297": { region: "Aruba", continent: "América Central" },
+  "+298": { region: "Ilhas Faroé", continent: "Europa" },
+  "+299": { region: "Groenlândia", continent: "América do Norte" },
+};
+const estadosBrasil = {
+  "11": { estado: "São Paulo", regiao: "Sudeste" },
+  "21": { estado: "Rio de Janeiro", regiao: "Sudeste" },
+  "31": { estado: "Minas Gerais", regiao: "Sudeste" },
+  "41": { estado: "Paraná", regiao: "Sul" },
+  "51": { estado: "Mato Grosso", regiao: "Centro-Oeste" },
+  "61": { estado: "Distrito Federal", regiao: "Centro-Oeste" },
+  "62": { estado: "Goiás", regiao: "Centro-Oeste" },
+  "63": { estado: "Tocantins", regiao: "Norte" },
+  "71": { estado: "Bahia", regiao: "Nordeste" },
+  "73": { estado: "Bahia", regiao: "Nordeste" },
+  "74": { estado: "Bahia", regiao: "Nordeste" },
+  "75": { estado: "Bahia", regiao: "Nordeste" },
+  "81": { estado: "Pernambuco", regiao: "Nordeste" },
+  "82": { estado: "Alagoas", regiao: "Nordeste" },
+  "83": { estado: "Paraíba", regiao: "Nordeste" },
+  "84": { estado: "Rio Grande do Norte", regiao: "Nordeste" },
+  "85": { estado: "Ceará", regiao: "Nordeste" },
+  "86": { estado: "Piauí", regiao: "Nordeste" },
+  "87": { estado: "Pernambuco", regiao: "Nordeste" },
+  "88": { estado: "Ceará", regiao: "Nordeste" },
+  "89": { estado: "Piauí", regiao: "Nordeste" },
+  "91": { estado: "Pará", regiao: "Norte" },
+  "92": { estado: "Amazonas", regiao: "Norte" },
+  "93": { estado: "Pará", regiao: "Norte" },
+  "94": { estado: "Pará", regiao: "Norte" },
+  "95": { estado: "Roraima", regiao: "Norte" },
+  "96": { estado: "Amapá", regiao: "Norte" },
+  "97": { estado: "Amazonas", regiao: "Norte" },
+  "98": { estado: "Maranhão", regiao: "Nordeste" },
+  "99": { estado: "Maranhão", regiao: "Nordeste" },
+  // Adicione mais estados e seus DDDs
+};
+
+const operadoras = {
+  "11": "Claro",
+  "21": "Vivo",
+  "31": "Oi",
+  "41": "TIM",
+  "51": "Vivo",
+  "61": "Vivo",
+  "62": "Vivo",
+  "63": "Oi",
+  "81": "Vivo",
+  "82": "Oi",
+  "83": "Claro",
+  "84": "Vivo",
+  "85": "Oi",
+  "86": "TIM",
+  "87": "Oi",
+  "88": "Oi",
+  "89": "Oi",
+  "91": "Vivo",
+  "92": "TIM",
+  "93": "Claro",
+  "94": "Oi",
+  "95": "Oi",
+  "96": "Oi",
+  "97": "Vivo",
+  "98": "Vivo",
+  "99": "Vivo",
+};
+
+const usuarios = {
+"+553184634849":"evan", 
+"+258847210337":" Gregory bot", 
+
+"+558481130087":"axolotl" 
+
+};
+
+    function consultarNumero() {
+      const input = document.getElementById("phoneNumber").value.trim();
+      const resultados = document.getElementById("resultados");
+
+      // Solicitar a bio da pessoa
+      const bio = prompt("Digite a bio da pessoa");
+
+      // Função para realizar uma pesquisa no Google
+      function pesquisarNoGoogle(termoDeBusca) {
+        const url = `https://www.google.com/search?q=site:telelista.net+${encodeURIComponent(termoDeBusca)}`;
+        window.open(url, '_blank');
+      }
+
+      // Função para buscar no TeleLista
+      function telelista() {
+        const urlt = `https://www.google.com/search?q=site:telelista.net+${encodeURIComponent(input)}`;
+        window.open(urlt, '_blank');
+      }
+
+      const countryCode = Object.keys(dddData).find(code => input.startsWith(code));
+
+      if (countryCode) {
+        const info = dddData[countryCode];
+        const usuario = usuarios[input] || "Nome não encontrado";
+
+        if (countryCode === "+55") {
+          const ddd = input.slice(3, 5); // Posição 3 e 4 após "+55"
+          const estadoInfo = estadosBrasil[ddd];
+
+          resultados.innerHTML = `
+            <p><strong>Código do País:</strong> ${countryCode}</p>
+            <p><strong>Região:</strong> ${info.region}</p>
+            <p><strong>Continente:</strong> ${info.continent}</p>
+            <p><strong>Estado:</strong> ${estadoInfo ? estadoInfo.estado : "Desconhecido"}</p>
+            <p><strong>Região do Estado:</strong> ${estadoInfo ? estadoInfo.regiao : "Desconhecida"}</p>
+            <p><strong>Operadora:</strong> ${operadoras[ddd] || "Desconhecida"}</p>
+            <p><strong>Nome do Usuário:</strong> ${usuario}</p>
+            <a href="${bio}" target="_blank">Pesquisar Bio</a>
+            <br>
+          `;
+        } else {
+          resultados.innerHTML = `
+            <p><strong>Código do País:</strong> ${countryCode}</p>
+            <p><strong>Região:</strong> ${info.region}</p>
+            <p><strong>Continente:</strong> ${info.continent}</p>
+            <p><strong>Nome do Usuário:</strong> ${usuario}</p>
+            <a href="${bio}" target="_blank">Pesquisar Bio</a>
+            <br>
+          `;
+        }
+      } else {
+        resultados.innerHTML = "<p>Número inválido ou código de país não encontrado.</p>";
+      }
+    }
+  </script>
+</body>
+</html>
